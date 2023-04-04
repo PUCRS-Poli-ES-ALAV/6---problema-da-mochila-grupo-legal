@@ -1,4 +1,6 @@
-public class Main{
+import java.lang.Math;
+
+public class PalavrasMelhor{
     public static String s1 = "Casablanca";
     public static String s2 = "Portentoso";
     public static String s3 = "Maven, a Yiddish word meaning accumulator of knowledge, began as an attempt to " +
@@ -16,33 +18,38 @@ public class Main{
             "Go to the profile of Marin Vlastelica Pogančić" + 
             "Marin Vlastelica Pogančić Jun";
 
-    public static void main(String [] args){
-        System.out.println(ed(s1, s2, s1.length() - 1, s2.length() - 1));
+    public static void main(String args[]){
+        System.out.println(distEdProgDina(s1, s2));
     }
 
-    public static int ed(String S, String T, int i, int j){
-        // Base cases.
-        if (i < 0 || j < 0) {
-            if (i < 0 && j < 0) {
-                return 0;
-            }
+    public static int distEdProgDina(String A, String B){
+        int m = A.length();
+        int n = B.length();
 
-            if (i < 0) {
-                return T.length();
-            } else {
-                return S.length();
+        int[][] matriz = new int[m-1][n-1];
+
+        matriz[0][0] = 0;
+
+        for(int i = 1; i < m; i++){
+            matriz[i][0] = matriz[i-1][0] + 1;
+        }
+        for(int j = 1; j < n; j++){
+            matriz[0][j] = matriz[0][j-1] + 1;
+        }
+
+        int custoExtra = 0;
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                if(A.charAt(i-1) == B.charAt(j-1)){
+                    custoExtra = 0;
+                }
+                else{
+                    custoExtra = 1;
+                }
+                matriz[i][j] = Math.min(matriz[i-1][j] + 1, Math.min(matriz[i][j-1]+1, matriz[i-1][j-1]+custoExtra));
             }
         }
 
-        // Recursive cases.
-        if(S.charAt(i) == T.charAt(j)) {
-            return ed(S, T, i - 1, j - 1);
-        }
-
-        int sub = ed(S, T, i-1, j-1) + 1;
-        int ins = ed(S, T, i, j-1) + 1;
-        int rem = ed(S, T, i-1, j) + 1;
-
-        return Math.min(Math.min(sub, ins), rem);
+        return matriz[m-1][n-1];
     }
 }
