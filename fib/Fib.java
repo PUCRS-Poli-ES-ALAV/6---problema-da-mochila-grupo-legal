@@ -2,7 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fib {
-	private static List<Long> fibs = new ArrayList<>();
+	private static List<Long> fibs = new ArrayList<>() {{
+		add(0L);
+		add(1L);
+		add(1L);
+	}};
 
 	public static void main(String[] args) {
 		int testNum = 10;
@@ -33,11 +37,11 @@ public class Fib {
 	}
 
 	public static long fibLookUp(int n) {
-		if (Fib.fibs.size() <= n) {
+		if (Fib.fibs.size() > n) {
 			return Fib.fibs.get(n);
 		}
 
-		Fib.fibs.set(n, fibLookUp(n - 1) + fibLookUp(n - 2));
+		Fib.fibs.add(fibLookUp(n - 1) + fibLookUp(n - 2));
 		return Fib.fibs.get(n);
 	}
 }
