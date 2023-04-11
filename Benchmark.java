@@ -1,26 +1,26 @@
 public abstract class Benchmark {
 	/**
+	 * Number of applications being benchmarked.
+	 */
+	protected static int num_benches;
+
+	/**
+	 * Number of iterations for each benchmark.
+	 * Must be of size num_benches.
+	 */
+	protected static long[] iters;
+
+	/**
 	 * Timer used for benchmarking, in ns.
 	 * Should not be read between resetTimer and stopTimer.
 	 */
 	private static long timer;
 
 	/**
-	 * Number of applications being benchmarked.
-	 */
-	private static int num_benches;
-
-	/**
-	 * Number of iterations for each benchmark.
-	 * Must be of size num_benches.
-	 */
-	private static long[] iters;
-
-	/**
 	 * Resets the class timer.
 	 * It then should not be read before stopTimer is called.
 	 */
-	private static void resetTimer() {
+	protected static void resetTimer() {
 		Benchmark.timer = System.nanoTime();
 	}
 
@@ -30,7 +30,7 @@ public abstract class Benchmark {
 	 *
 	 * @return the time elapsed in ms
 	 */
-	private static double stopTimer() {
+	protected static double stopTimer() {
 		Benchmark.timer = System.nanoTime() - Benchmark.timer;
 		return Benchmark.timer / 1e6;
 	}
@@ -38,7 +38,7 @@ public abstract class Benchmark {
 	/**
 	 * Reset the number of iterations for all applications.
 	 */
-	private static void resetIterations() {
+	protected static void resetIterations() {
 		for (int i = 0; i < num_benches; i++) {
 			iters[i] = 0;
 		}

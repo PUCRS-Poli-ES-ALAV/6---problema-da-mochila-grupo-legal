@@ -3,7 +3,6 @@ import java.util.List;
 
 public class Fib extends Benchmark {
 	protected static int num_benches = 3;
-	protected static long[] iters = { 0, 0, 0 };
 
 	private static List<Long> fibs = new ArrayList<>() {{
 		add(0L);
@@ -20,7 +19,6 @@ public class Fib extends Benchmark {
 	}
 
 	public static void benchmark(int n) {
-		Fib.resetIterations();
 		double time;
 
 		Fib.resetTimer();
