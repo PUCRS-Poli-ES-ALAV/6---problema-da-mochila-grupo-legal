@@ -16,8 +16,20 @@ public class Main{
             "Go to the profile of Marin Vlastelica Pogančić" + 
             "Marin Vlastelica Pogančić Jun";
 
+    private static long timer;
+
+    private static void resetTimer() {
+        Main.timer = System.nanoTime();
+        }
+
+        private static double stopTimer() {
+            Main.timer = System.nanoTime() - Main.timer;
+            return Main.timer / 1e6;
+            }
     public static void main(String [] args){
+        resetTimer();
         System.out.println(ed(s1, s2, s1.length() - 1, s2.length() - 1));
+        System.out.println("tempo = " + stopTimer());
     }
 
     public static int ed(String S, String T, int i, int j){

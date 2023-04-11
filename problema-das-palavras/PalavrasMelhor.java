@@ -1,6 +1,8 @@
 import java.lang.Math;
+import java.time.*;
 
 public class PalavrasMelhor{
+    
     public static String s1 = "Casablanca";
     public static String s2 = "Portentoso";
     public static String s3 = "Maven, a Yiddish word meaning accumulator of knowledge, began as an attempt to " +
@@ -19,7 +21,11 @@ public class PalavrasMelhor{
             "Marin Vlastelica Pogančić Jun";
 
     public static void main(String args[]){
-        System.out.println(distEdProgDina(s1, s2));
+        double t = System.nanoTime();
+        System.out.println(distEdProgDina(s3, s4));
+        double tf = System.nanoTime() - t;
+        tf = tf/1000000;
+        System.out.println("tempo = " + tf);
     }
 
     public static int distEdProgDina(String A, String B){

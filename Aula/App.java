@@ -1,11 +1,29 @@
 import java.lang.Math;
 
 public class App{
+
+    private static long timer;
+
+    private static void resetTimer() {
+        App.timer = System.nanoTime();
+        }
+
+        private static double stopTimer() {
+            App.timer = System.nanoTime() - App.timer;
+            return App.timer / 1e6;
+            }
     public static void main(String args[]){
-        Tupla[] itens = {new Tupla(2,5), new Tupla(4,2), new Tupla(2,2), new Tupla(3,1)};
-        int C = 7;
+        resetTimer();
+        Tupla[] itens = {new Tupla(50,56), 
+                        new Tupla(50,59), 
+                        new Tupla(64,80), 
+                        new Tupla(46,64),
+                        new Tupla(50,75),
+                        new Tupla(5,17)};
+        int C = 190;
         int N = itens.length;
         System.out.println(backPackPd(N, C, itens));
+        System.out.println("tempo = " + stopTimer());
     }
 
     public static int backPackPd(int N, int C, Tupla[] itens){
@@ -30,7 +48,7 @@ public class App{
                     maxTab[i][j] = maxTab[i-1][j];
                 }
 
-                System.out.println(maxTab[i][j]);
+                // System.out.println(maxTab[i][j]);
             }
         }
 
