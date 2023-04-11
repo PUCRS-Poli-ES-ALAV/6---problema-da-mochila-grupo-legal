@@ -26,20 +26,20 @@ public class PalavrasMelhor{
         int m = A.length();
         int n = B.length();
 
-        int[][] matriz = new int[m-1][n-1];
-
+        int[][] matriz = new int[m+1][n+1];
+        
         matriz[0][0] = 0;
 
-        for(int i = 1; i < m; i++){
+        for(int i = 1; i <= m; i++){
             matriz[i][0] = matriz[i-1][0] + 1;
         }
-        for(int j = 1; j < n; j++){
+        for(int j = 1; j <= n; j++){
             matriz[0][j] = matriz[0][j-1] + 1;
         }
 
         int custoExtra = 0;
-        for(int i = 1; i < m; i++){
-            for(int j = 1; j < n; j++){
+        for(int i = 1; i <= m; i++){
+            for(int j = 1; j <= n; j++){
                 if(A.charAt(i-1) == B.charAt(j-1)){
                     custoExtra = 0;
                 }
@@ -49,7 +49,8 @@ public class PalavrasMelhor{
                 matriz[i][j] = Math.min(matriz[i-1][j] + 1, Math.min(matriz[i][j-1]+1, matriz[i-1][j-1]+custoExtra));
             }
         }
-
-        return matriz[m-1][n-1];
+        return matriz[m][n];
     }
+
+
 }
