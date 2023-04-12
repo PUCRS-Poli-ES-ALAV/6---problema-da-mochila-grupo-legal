@@ -11,24 +11,35 @@ public class Fib extends Benchmark {
 	}};
 
 	public static void main(String[] args) {
-		int[] nums = { 4, 8, 16, 32 };
+		int[] nums = { 4, 8, 16, 32, 128, 1000, 10000 };
+		int firstBench = 0;
 
 		for (int n : nums) {
-			benchmark(n);
+			if (n > 32) {
+				firstBench = 1;
+			}
+
+			benchmark(n, firstBench);
 		}
 	}
 
-	public static void benchmark(int n) {
+	public static void benchmark(int n, int firstbench) {
 		Fib.resetIters(Fib.NUM_BENCHES);
 
-		Fib.resetTimer();
-		Fib.printResults(0, "fibRec", n, Fib.fibRec(n));
+		if (firstbench <= 0) {
+			Fib.resetTimer();
+			Fib.printResults(0, "fibRec", n, Fib.fibRec(n));
+		}
 
-		Fib.resetTimer();
-		Fib.printResults(1, "fibIter", n, Fib.fibIter(n));
+		if (firstbench <= 1) {
+			Fib.resetTimer();
+			Fib.printResults(1, "fibIter", n, Fib.fibIter(n));
+		}
 
-		Fib.resetTimer();
-		Fib.printResults(2, "fibLookUp", n, Fib.fibLookUp(n));
+		if (firstbench <= 2) {
+			Fib.resetTimer();
+			Fib.printResults(2, "fibLookUp", n, Fib.fibLookUp(n));
+		}
 
 		System.out.println();
 	}
