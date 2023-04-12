@@ -59,7 +59,7 @@ public abstract class Benchmark {
 	) {
 		System.out.println(
 			benchmarkName + "(" + input + "): " + getIter(i) + " iter(s) "
-			+ "(" + Fib.stopTimer() + " ms)"
+			+ "(" + Fib.stopTimer() + " ms) = " + output
 		);
 	}
 }
