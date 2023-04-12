@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fib extends Benchmark {
-	protected static int num_benches = 3;
+	private static final int NUM_BENCHES = 3;
 
 	private static List<Long> fibs = new ArrayList<>() {{
 		add(0L);
@@ -19,26 +19,22 @@ public class Fib extends Benchmark {
 	}
 
 	public static void benchmark(int n) {
-		double time;
+		Fib.resetIters(Fib.NUM_BENCHES);
 
 		Fib.resetTimer();
-		Fib.fibRec(n);
-		time = Fib.stopTimer();
-		System.out.println(time + " ms");
+		Fib.printResults(0, "fibRec", n, Fib.fibRec(n));
 
 		Fib.resetTimer();
-		Fib.fibIter(n);
-		time = Fib.stopTimer();
-		System.out.println(time + " ms");
+		Fib.printResults(1, "fibIter", n, Fib.fibIter(n));
 
 		Fib.resetTimer();
-		Fib.fibLookUp(n);
-		time = Fib.stopTimer();
-		System.out.println(time + " ms");
+		Fib.printResults(2, "fibLookUp", n, Fib.fibLookUp(n));
+
+		System.out.println();
 	}
 
 	public static long fibRec(int n) {
-		Fib.iters[0] += 1;
+		Fib.incrementIter(0);
 
 		if (n <= 1) {
 			return n;
@@ -48,13 +44,12 @@ public class Fib extends Benchmark {
 	}
 
 	public static long fibIter(int n) {
-		Fib.iters[1] += 1;
-
 		long[] fibs = new long[n + 1];
 		fibs[0] = 0;
 		fibs[1] = 1;
 
 		for (int i = 2; i < n + 1; i++) {
+			Fib.incrementIter(1);
 			fibs[i] = fibs[i - 1] + fibs[i - 2];
 		}
 
@@ -62,7 +57,7 @@ public class Fib extends Benchmark {
 	}
 
 	public static long fibLookUp(int n) {
-		Fib.iters[2] += 1;
+		Fib.incrementIter(2);
 
 		if (Fib.fibs.size() > n) {
 			return Fib.fibs.get(n);
