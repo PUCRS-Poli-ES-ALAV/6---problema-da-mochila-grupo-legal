@@ -1,3 +1,10 @@
+/**
+ * Abstract benchmark implementation.
+ *
+ * Measures total iterations and elapsed time of multiple applications.
+ * This class should not be extended more than once per Java program,
+ * since it uses multiple static fields.
+ */
 public abstract class Benchmark {
 	/**
 	 * Number of iterations for each benchmark.
@@ -54,13 +61,36 @@ public abstract class Benchmark {
 		}
 	}
 
+	/**
+	 * Prints the benchmark results of an application.
+	 *
+	 * @param <T> the input type
+	 * @param <U> the output type
+	 * @param i the benchmark index
+	 * @param benchmarkName the benchmark name
+	 * @param input the benchmark input (or vector size, etc.)
+	 * @param output the benchmark output
+	 * @param printOutput wether to print the application output or not
+	 */
+	protected static <T, U> void printResults(
+		int i, String benchmarkName, T input, U output, boolean printOutput
+	) {
+		System.out.print(
+			benchmarkName + "(" + input + "): " + getIter(i) + " iter(s) "
+			+ "(" + Fib.stopTimer() + " ms)"
+		);
+
+		if (printOutput) {
+			System.out.println(" = " + output);
+		} else {
+			System.out.println();
+		}
+	}
+
 	protected static <T, U> void printResults(
 		int i, String benchmarkName, T input, U output
 	) {
-		System.out.println(
-			benchmarkName + "(" + input + "): " + getIter(i) + " iter(s) "
-			+ "(" + Fib.stopTimer() + " ms) = " + output
-		);
+		Benchmark.printResults(i, benchmarkName, input, output, true);
 	}
 }
 
