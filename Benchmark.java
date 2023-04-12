@@ -1,28 +1,14 @@
 public abstract class Benchmark {
 	/**
-	 * Number of applications being benchmarked.
-	 */
-	protected static int num_benches;
-
-	/**
 	 * Number of iterations for each benchmark.
-	 * Must be of size num_benches.
 	 */
-	protected static long[] iters;
+	private static long[] iters;
 
 	/**
 	 * Timer used for benchmarking, in ns.
 	 * Should not be read between resetTimer and stopTimer.
 	 */
 	private static long timer;
-
-	/**
-	 * Resets the class timer.
-	 * It then should not be read before stopTimer is called.
-	 */
-	protected static void resetTimer() {
-		Benchmark.timer = System.nanoTime();
-	}
 
 	/**
 	 * Stops the class timer, storing the time elapsed in ns
@@ -36,12 +22,45 @@ public abstract class Benchmark {
 	}
 
 	/**
+	 * Resets the class timer.
+	 * It then should not be read before stopTimer is called.
+	 */
+	protected static void resetTimer() {
+		Benchmark.timer = System.nanoTime();
+	}
+
+	/**
+	 * Get the iteration count for a benchmark.
+	 */
+	protected static long getIter(int i) {
+		return Benchmark.iters[i];
+	}
+
+	/**
+	 * Increment the iteration count for a benchmark.
+	 */
+	protected static void incrementIter(int i) {
+		Benchmark.iters[i] += 1;
+	}
+
+	/**
 	 * Reset the number of iterations for all applications.
 	 */
-	protected static void resetIterations() {
+	protected static void resetIters(int num_benches) {
+		Benchmark.iters = new long[num_benches];
+
 		for (int i = 0; i < num_benches; i++) {
-			iters[i] = 0;
+			Benchmark.iters[i] = 0;
 		}
+	}
+
+	protected static <T, U> void printResults(
+		int i, String benchmarkName, T input, U output
+	) {
+		System.out.println(
+			benchmarkName + "(" + input + "): " + getIter(i) + " iter(s) "
+			+ "(" + Fib.stopTimer() + " ms)"
+		);
 	}
 }
 
