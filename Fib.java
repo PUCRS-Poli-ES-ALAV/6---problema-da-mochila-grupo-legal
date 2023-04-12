@@ -14,12 +14,13 @@ public class Fib extends Benchmark {
 		int[] nums = { 4, 8, 16, 32, 128, 1000, 10000 };
 		int firstBench = 0;
 
-		for (int n : nums) {
-			if (n > 32) {
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] > 32) {
 				firstBench = 1;
 			}
 
-			benchmark(n, firstBench);
+			benchmark(nums[i], firstBench);
+			System.out.println();
 		}
 	}
 
@@ -40,8 +41,6 @@ public class Fib extends Benchmark {
 			Fib.resetTimer();
 			Fib.printResults(2, "fibLookUp", n, Fib.fibLookUp(n));
 		}
-
-		System.out.println();
 	}
 
 	public static long fibRec(int n) {
