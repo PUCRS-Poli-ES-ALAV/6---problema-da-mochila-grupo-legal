@@ -3,6 +3,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Knapsack Problem benchmark suite.
+ */
 public class Knapsack extends Benchmark {
 	private static final int NUM_BENCHES = 2;
 

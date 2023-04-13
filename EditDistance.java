@@ -1,3 +1,6 @@
+/**
+ * Edit Distance benchmark suite.
+ */
 public class EditDistance extends Benchmark {
 	private static final int NUM_BENCHES = 2;
 

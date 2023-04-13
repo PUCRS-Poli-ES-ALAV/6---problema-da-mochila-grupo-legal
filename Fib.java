@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fibbonacci sequence benchmark suite.
+ */
 public class Fib extends Benchmark {
 	private static final int NUM_BENCHES = 3;
 
@@ -43,6 +46,12 @@ public class Fib extends Benchmark {
 		}
 	}
 
+	/**
+	 * Recursive implementation of the Fibbonaci sequence.
+	 *
+	 * @param n the index of a number in the sequence
+	 * @return fib(n)
+	 */
 	public static long fibRec(int n) {
 		Fib.incrementIter(0);
 
@@ -53,6 +62,12 @@ public class Fib extends Benchmark {
 		return fibRec(n - 1) + fibRec(n - 2);
 	}
 
+	/**
+	 * Iterative implementation of the Fibbonaci sequence.
+	 *
+	 * @param n the index of a number in the sequence
+	 * @return fib(n)
+	 */
 	public static long fibIter(int n) {
 		long[] fibs = new long[n + 1];
 		fibs[0] = 0;
@@ -66,6 +81,12 @@ public class Fib extends Benchmark {
 		return fibs[n];
 	}
 
+	/**
+	 * Memoized implementation of the Fibbonaci sequence.
+	 *
+	 * @param n the index of a number in the sequence
+	 * @return fib(n)
+	 */
 	public static long fibLookUp(int n) {
 		Fib.incrementIter(2);
 
