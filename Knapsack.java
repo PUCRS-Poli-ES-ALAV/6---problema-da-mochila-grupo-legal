@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,29 +9,29 @@ public class Knapsack extends Benchmark {
 	public static void main(String[] args) {
 		int[] capacities = { 165, 190 };
 
-		List<List<Knapsack.Item>> items = new ArrayList<>();
+		List<List<Knapsack.Item>> items = new ArrayList<>() {{
+			add(new ArrayList<>() {{
+				add(new Knapsack.Item(23, 92));
+				add(new Knapsack.Item(31, 57));
+				add(new Knapsack.Item(29, 49));
+				add(new Knapsack.Item(44, 68));
+				add(new Knapsack.Item(53, 60));
+				add(new Knapsack.Item(38, 43));
+				add(new Knapsack.Item(63, 67));
+				add(new Knapsack.Item(85, 84));
+				add(new Knapsack.Item(89, 87));
+				add(new Knapsack.Item(82, 72));
+			}});
 
-		items.add(new ArrayList<>() {{
-			add(Knapsack.new Item(23, 92));
-			add(Knapsack.new Item(31, 57));
-			add(Knapsack.new Item(29, 49));
-			add(Knapsack.new Item(44, 68));
-			add(Knapsack.new Item(53, 60));
-			add(Knapsack.new Item(38, 43));
-			add(Knapsack.new Item(63, 67));
-			add(Knapsack.new Item(85, 84));
-			add(Knapsack.new Item(89, 87));
-			add(Knapsack.new Item(82, 72));
-		}});
-
-		items.add(new ArrayList<>() {{
-			add(Knapsack.new Item(56, 50));
-			add(Knapsack.new Item(59, 50));
-			add(Knapsack.new Item(80, 64));
-			add(Knapsack.new Item(64, 46));
-			add(Knapsack.new Item(75, 50));
-			add(Knapsack.new Item(17, 05));
-		}});
+			add(new ArrayList<>() {{
+				add(new Knapsack.Item(56, 50));
+				add(new Knapsack.Item(59, 50));
+				add(new Knapsack.Item(80, 64));
+				add(new Knapsack.Item(64, 46));
+				add(new Knapsack.Item(75, 50));
+				add(new Knapsack.Item(17, 05));
+			}});
+		}};
 
 		for (int i = 0; i < capacities.length; i++) {
 			KnapsackInput input = new KnapsackInput(
@@ -44,12 +45,14 @@ public class Knapsack extends Benchmark {
 
 	public static void benchmark(KnapsackInput input) {
 		Knapsack.resetIters(Knapsack.NUM_BENCHES);
+
+		Knapsack.resetTimer();
 		Knapsack.printResults(
 			0, "knapsackElsner", input,
 			knapsackElsner(input.capacity(), input.items())
 		);
 
-		Knapsack.resetIters(Knapsack.NUM_BENCHES);
+		Knapsack.resetTimer();
 		Knapsack.printResults(
 			1, "knapsackDP", input,
 			knapsackDP(input.capacity(), input.items())
@@ -71,7 +74,7 @@ public class Knapsack extends Benchmark {
 
 		int totalWeight = 0;
 
-		for (Item item : items) {
+		for (Knapsack.Item item : items) {
 			totalWeight += item.weight();
 		}
 
@@ -81,15 +84,15 @@ public class Knapsack extends Benchmark {
 
 		List<Integer> branches = new ArrayList<>(items.size());
 
-		for (Item item : items) {
-			List<Integer> itemsSubset = items.stream()
+		for (Knapsack.Item item : items) {
+			List<Knapsack.Item> itemsSubset = items.stream()
 				.filter(i -> i != item)
 				.collect(Collectors.toList());
 
 			branches.add(knapsackElsner(capacity, itemsSubset));
 		}
 
-		return branches.stream().mapToInt(x -> (int) x).max();
+		return Collections.max(branches);
 	}
 
     /**
@@ -100,10 +103,10 @@ public class Knapsack extends Benchmark {
      * @return the maximum possible value to be stored in the knapsack
      */
     public static int knapsackDP(int capacity, List<Knapsack.Item> items) {
-        int [][] max = new int[items.length+1][capacity+1];
+        int[][] max = new int[items.size() + 1][capacity + 1];
 
-        for (int i = 1; i < items.length; i++) {
-            for (int j = 11; j < capacity; j++) {
+        for (int i = 1; i < items.size(); i++) {
+            for (int j = 1; j < capacity; j++) {
 				Knapsack.incrementIter(1);
 
                 if (items.get(i).weight() <= j) {
@@ -113,12 +116,12 @@ public class Knapsack extends Benchmark {
 						+ max[i - 1][j - items.get(i).weight()]
                     );
                 } else {
-                    max[i][j] = max[i-1][j];
+                    max[i][j] = max[i - 1][j];
                 }
             }
         }
 
-        return max[items.length][capacity];
+        return max[items.size()][capacity];
     }
 
 	private static record Item (
@@ -129,5 +132,11 @@ public class Knapsack extends Benchmark {
 	private static record KnapsackInput (
 		int capacity,
 		List<Knapsack.Item> items
-	) { }
+	) {
+
+		@Override
+		public String toString() {
+			return "c = " + capacity + ", n = " + items.size();
+		}
+	}
 }
